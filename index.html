@@ -16,7 +16,7 @@
             transition: background-image 1s ease-in-out;
             background-size: cover;
             background-position: center;
-            background-color: #222; /* Color de respaldo */
+            background-color: #222;
         }
 
         #overlay {
@@ -25,7 +25,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5); /* Oscurece el fondo para leer mejor */
+            background: rgba(0, 0, 0, 0.5);
             z-index: 1;
         }
 
@@ -53,7 +53,6 @@
             position: relative;
         }
 
-        /* Efecto de "hoja de papel" */
         .page::before {
             content: '';
             position: absolute;
@@ -67,7 +66,7 @@
 
         h1 {
             font-family: 'Dancing Script', cursive;
-            color: #d6336c; /* Color rosa oscuro */
+            color: #d6336c;
             font-size: 2.5em;
             margin-bottom: 20px;
         }
@@ -76,7 +75,7 @@
             font-size: 1.2em;
             line-height: 1.6;
             color: #333;
-            min-height: 100px; /* Evita saltos bruscos */
+            min-height: 100px;
         }
 
         .hint {
@@ -92,13 +91,11 @@
             100% { opacity: 0.5; }
         }
 
-        /* Animación de salida (pasar página) */
         .page-turn {
             transform: rotateY(-90deg) translateX(-50px);
             opacity: 0;
         }
 
-        /* Animación de entrada */
         .page-enter {
             animation: slideIn 0.8s forwards;
         }
@@ -123,33 +120,32 @@
 
     <script>
         // DATOS DE LA CARTA
-        // Puedes cambiar las URLs de las imágenes por fotos suyas o paisajes que le gusten.
         const pages = [
             {
                 title: "Lo siento...",
                 text: "A veces las palabras se enredan y mis acciones no reflejan lo que realmente hay en mi corazón. Sé que últimamente te he hecho sentir mal, y eso es lo último que quiero en esta vida mi Sofi.",
-                bg: "https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?q=80&w=1920&auto=format&fit=crop" // Imagen melancólica/suave
+                bg: "https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?q=80&w=1920&auto=format&fit=crop"
             },
             {
                 title: "Me duele haberte fallado",
                 text: "Me duele profundamente haberte causado inseguridades. No hay excusa para hacerte dudar de tu valor o de mi amor. Estoy aquí, arrepentido, sabiendo que tengo que ser mejor para ti.",
-                bg: "https://images.unsplash.com/photo-1474540412665-1cdae210ae6b?q=80&w=1920&auto=format&fit=crop" // Imagen reflexiva
+                bg: "https://images.unsplash.com/photo-1474540412665-1cdae210ae6b?q=80&w=1920&auto=format&fit=crop"
             },
             {
                 title: "Solo existes tú en mi vida",
-                text: "Quiero que tengas una certeza absoluta. Solo pienso en ti, No hay nadie más. Mi mente, mi energía y mi verga te pertenecen solo a ti. Eres mi primer pensamiento al despertar y el ultimo al dormir, quiero que seas mi presente y mi futuro.",
-                bg: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=1920&auto=format&fit=crop" // Imagen romántica/naturaleza
+                text: "Quiero que tengas una certeza absoluta. Solo pienso en ti, No hay nadie más. Mi mente, mi energía y mi vida te pertenecen solo a ti. Eres mi primer pensamiento al despertar y el ultimo al dormir, quiero que seas mi presente y mi futuro.",
+                bg: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=1920&auto=format&fit=crop"
             },
             {
-                title: "Tu sonrisa es mi luz, tu bella sonrisa",
+                title: "Tu sonrisa es mi luz",
                 text: "Extraño tu sonrisa más que nada. Mi mundo es más gris cuando estás molesta. Solo quiero borrar esa tristeza y volver a ver esa luz en tu rostro que me enamora todos los días.",
-                bg: "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?q=80&w=1920&auto=format&fit=crop" // Imagen alegre/sol
+                bg: "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?q=80&w=1920&auto=format&fit=crop"
             },
             {
+                // AQUÍ ESTABA EL ERROR: He dejado solo un texto y arreglado las comas
                 title: "¿Me perdonas mi amorcito?",
-                text: "Te amo con todo mi ser. ❤️"
-                text: "Espero puedas perdonar a este tonto que te ama con todo su ser ❤️"
-                bg: "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?q=80&w=1920&auto=format&fit=crop" // Imagen de cierre amorosa
+                text: "Espero puedas perdonar a este tonto que te ama con todo su ser ❤️",
+                bg: "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?q=80&w=1920&auto=format&fit=crop"
             }
         ];
 
@@ -163,32 +159,27 @@
 
         function nextPage() {
             if (currentPage >= pages.length) {
-                // Opción: Reiniciar o mostrar mensaje final estático
                 alert("Te amo. Fin de la carta."); 
                 return;
             }
 
-            // 1. Animación de salida (voltear página)
             pageElement.classList.add('page-turn');
 
             setTimeout(() => {
-                // 2. Cambiar contenido y fondo
                 const data = pages[currentPage];
                 titleElement.innerText = data.title;
-                contentElement.innerHTML = data.text; // Usamos innerHTML para permitir negritas
+                contentElement.innerHTML = data.text;
                 document.body.style.backgroundImage = `url('${data.bg}')`;
 
-                // 3. Resetear clases y añadir animación de entrada
                 pageElement.classList.remove('page-turn');
                 pageElement.classList.add('page-enter');
                 
-                // Limpiar animación de entrada después de que termine
                 setTimeout(() => {
                     pageElement.classList.remove('page-enter');
                 }, 800);
 
                 currentPage++;
-            }, 600); // Espera a que termine la animación de salida (0.6s)
+            }, 600);
         }
     </script>
 </body>
