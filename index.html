@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Ti ❤️</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Montserrat:wght@300;500&display=swap');
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Montserrat', sans-serif;
+            transition: background-image 1s ease-in-out;
+            background-size: cover;
+            background-position: center;
+            background-color: #222; /* Color de respaldo */
+        }
+
+        #overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5); /* Oscurece el fondo para leer mejor */
+            z-index: 1;
+        }
+
+        .book-container {
+            position: relative;
+            z-index: 10;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1500px;
+        }
+
+        .page {
+            width: 80%;
+            max-width: 600px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            text-align: center;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s;
+            position: relative;
+        }
+
+        /* Efecto de "hoja de papel" */
+        .page::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 5px;
+            background: rgba(0,0,0,0.1);
+            border-radius: 15px 0 0 15px;
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            color: #d6336c; /* Color rosa oscuro */
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            color: #333;
+            min-height: 100px; /* Evita saltos bruscos */
+        }
+
+        .hint {
+            margin-top: 30px;
+            font-size: 0.8em;
+            color: #777;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
+        }
+
+        /* Animación de salida (pasar página) */
+        .page-turn {
+            transform: rotateY(-90deg) translateX(-50px);
+            opacity: 0;
+        }
+
+        /* Animación de entrada */
+        .page-enter {
+            animation: slideIn 0.8s forwards;
+        }
+
+        @keyframes slideIn {
+            from { transform: rotateY(90deg) translateX(50px); opacity: 0; }
+            to { transform: rotateY(0deg) translateX(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="overlay"></div>
+
+    <div class="book-container">
+        <div class="page" id="page" onclick="nextPage()">
+            <h1 id="title">Hola...</h1>
+            <p id="content">Hay algo importante que necesito decirte desde el fondo de mi corazón y esta vez no le puse musica, porque tu sabes que musica me recuerda a tí. (Haz clic para leer)</p>
+            <div class="hint">(Toca la carta para continuar mi Sofi)</div>
+        </div>
+    </div>
+
+    <script>
+        // DATOS DE LA CARTA
+        // Puedes cambiar las URLs de las imágenes por fotos suyas o paisajes que le gusten.
+        const pages = [
+            {
+                title: "Lo siento...",
+                text: "A veces las palabras se enredan y mis acciones no reflejan lo que realmente hay en mi corazón. Sé que últimamente te he hecho sentir mal, y eso es lo último que quiero en esta vida mi Sofi.",
+                bg: "https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?q=80&w=1920&auto=format&fit=crop" // Imagen melancólica/suave
+            },
+            {
+                title: "Me duele haberte fallado",
+                text: "Me duele profundamente haberte causado inseguridades. No hay excusa para hacerte dudar de tu valor o de mi amor. Estoy aquí, arrepentido, sabiendo que tengo que ser mejor para ti.",
+                bg: "https://images.unsplash.com/photo-1474540412665-1cdae210ae6b?q=80&w=1920&auto=format&fit=crop" // Imagen reflexiva
+            },
+            {
+                title: "Solo existes tú en mi vida",
+                text: "Quiero que tengas una certeza absoluta. Solo pienso en ti, No hay nadie más. Mi mente, mi energía y mi verga te pertenecen solo a ti. Eres mi primer pensamiento al despertar y el ultimo al dormir, quiero que seas mi presente y mi futuro.",
+                bg: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=1920&auto=format&fit=crop" // Imagen romántica/naturaleza
+            },
+            {
+                title: "Tu sonrisa es mi luz, tu bella sonrisa",
+                text: "Extraño tu sonrisa más que nada. Mi mundo es más gris cuando estás molesta. Solo quiero borrar esa tristeza y volver a ver esa luz en tu rostro que me enamora todos los días.",
+                bg: "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?q=80&w=1920&auto=format&fit=crop" // Imagen alegre/sol
+            },
+            {
+                title: "¿Me perdonas mi amorcito?",
+                text: "Te amo con todo mi ser. ❤️"
+                text: "Espero puedas perdonar a este tonto que te ama con todo su ser ❤️"
+                bg: "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?q=80&w=1920&auto=format&fit=crop" // Imagen de cierre amorosa
+            }
+        ];
+
+        let currentPage = 0;
+        const pageElement = document.getElementById('page');
+        const titleElement = document.getElementById('title');
+        const contentElement = document.getElementById('content');
+        
+        // Inicializar fondo
+        document.body.style.backgroundImage = `url('${pages[0].bg}')`;
+
+        function nextPage() {
+            if (currentPage >= pages.length) {
+                // Opción: Reiniciar o mostrar mensaje final estático
+                alert("Te amo. Fin de la carta."); 
+                return;
+            }
+
+            // 1. Animación de salida (voltear página)
+            pageElement.classList.add('page-turn');
+
+            setTimeout(() => {
+                // 2. Cambiar contenido y fondo
+                const data = pages[currentPage];
+                titleElement.innerText = data.title;
+                contentElement.innerHTML = data.text; // Usamos innerHTML para permitir negritas
+                document.body.style.backgroundImage = `url('${data.bg}')`;
+
+                // 3. Resetear clases y añadir animación de entrada
+                pageElement.classList.remove('page-turn');
+                pageElement.classList.add('page-enter');
+                
+                // Limpiar animación de entrada después de que termine
+                setTimeout(() => {
+                    pageElement.classList.remove('page-enter');
+                }, 800);
+
+                currentPage++;
+            }, 600); // Espera a que termine la animación de salida (0.6s)
+        }
+    </script>
+</body>
+</html>
